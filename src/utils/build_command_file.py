@@ -1,4 +1,4 @@
-PATH_DATA = '/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE'
+DIRPATH_DATA = '/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE'
 DIRPATH_OUTPUT = '/home/anatole/Documents/OUTPUT_CAWAQS_STUDENT/SEINE3C_DONSURBU28_agricolecalcaire_1'
 N_THREADS = 8
 
@@ -8,12 +8,12 @@ LIEN_ELE_BU_CPROD = 'LIEN_ELE_BU_CPROD.txt'
 
 
 COMMFILE = f"""\
-Input_folders   = {PATH_DATA}/Cmd_files
-                = {PATH_DATA}/DATA_HYD
-                = {PATH_DATA}/DATA_SURF
-                = {PATH_DATA}/DATA_NSAT
-                = {PATH_DATA}/DATA_MESH
-                = {PATH_DATA}/DATA_AQ
+Input_folders   = {DIRPATH_DATA}/Cmd_files
+                = {DIRPATH_DATA}/DATA_HYD
+                = {DIRPATH_DATA}/DATA_SURF
+                = {DIRPATH_DATA}/DATA_NSAT
+                = {DIRPATH_DATA}/DATA_MESH
+                = {DIRPATH_DATA}/DATA_AQ
 
 Output_folder   = {DIRPATH_OUTPUT}
 
@@ -107,7 +107,7 @@ HYDRO = {{
     SURFACE = {{
 
         MTO = {{
-            mto_path     = {PATH_DATA}      # --> Updated to 31/07/2022
+            mto_path     = {DIRPATH_DATA}/METEO      # --> Updated to 31/07/2022
             rain_prefix  = precip
             etp_prefix   = etp
             format       = UNFORMATTED
