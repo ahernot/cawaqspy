@@ -1,1 +1,5 @@
 PATH_CAWAQS = '~/cawaqs'
+
+DIRPATH_DATA = '/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE'
+DIRPATH_OBS  = '/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/DATA_OBS/TS_OBS_DISCHARGE'
+DIRPATH_OUT  = '/home/anatole/Documents/DATA_CAWAQS_OUT/'
