@@ -7,7 +7,7 @@ DIRPATH_OBS  = '/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/DATA_OBS/TS_OBS_DIS
 DIRPATH_OUT  = '/home/anatole/Documents/DATA_CAWAQS_OUT/'  # os.makedirs
 dirname_out_proj = 'Project'
 dirpath_out_proj = '/home/anatole/Documents/DATA_CAWAQS_OUT/Project'  # TODO: iterate over project_{id}
-DIRPATH_POST_PROCESSING = '/home/anatole/Documents/DATA_CAWAQS_OUT/Project/POST_PROCESSING'
+DIRPATH_POST_PROCESSING = '/home/anatole/Documents/DATA_CAWAQS_OUT/Project/POST_PROCESSING'  # TODO: main PP dir (includes all PP subdirs)
 
 path_config_project = os.path.join(dirpath_out_proj, f'config_project_{dirname_out_proj}.json')
 path_config_geometries = os.path.join(dirpath_out_proj, f'config_geometries_{dirname_out_proj}.json')

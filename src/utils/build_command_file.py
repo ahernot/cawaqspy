@@ -1,5 +1,5 @@
 DIRPATH_DATA = '/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE'
-DIRPATH_OUTPUT = '/home/anatole/Documents/OUTPUT_CAWAQS_STUDENT/SEINE3C_DONSURBU28_agricolecalcaire_1'
+DIRPATH_OUTPUT = '/home/anatole/Documents/DATA_CAWAQS_OUT/TestProj'
 N_THREADS = 8
 
 DONSUR = 'DONSUR_BU28.txt'
