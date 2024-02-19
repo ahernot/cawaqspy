@@ -1,5 +1,5 @@
 
-def convertDischarge(obs_values, obs_unit:str = 'l/s'):
+def convertDischarge(obs_values, obs_unit:str = 'l/s', verbose=False):
     """
     Convert Observation Matrix to Discharge CaWaQS Output (mm3/s)
 
@@ -14,7 +14,7 @@ def convertDischarge(obs_values, obs_unit:str = 'l/s'):
     elif obs_unit == 'm3/s' :
         m = 1
 
-    print(f"CONVERT OBS in {obs_unit} to m3/s")
+    if verbose: print(f"CONVERT OBS in {obs_unit} to m3/s")
     return [value * m for value in obs_values]
 
 def convertWatbalVariable(sim_value:float, surf:float, wanted_unit:str):

@@ -5,6 +5,8 @@ import pandas as pd
 
 from qgis.core import QgsProject, QgsSpatialIndex, QgsPointXY
 
+
+
 class Observation() :
     def __init__(self, id_obs, id_compartment, config, out_caw_directory):
         
@@ -39,15 +41,15 @@ class Observation() :
     def defineIdMesh(self, id_obs):
         return link_obs_mesh[id_obs]
 
-    def readHydCorrespfile(self, out_caw_directory) :
-        print(f'reading hyd corresp file : {out_caw_directory}') 
+    def readHydCorrespfile(self, out_caw_directory, verbose=False) :
+        if verbose: print(f'reading hyd corresp file : {out_caw_directory}') 
         corresp_file_path = out_caw_directory + sep + 'HYD_corresp_file.txt'
         
         corr = pd.read_csv(corresp_file_path, index_col = 2, sep = '\s+')
 
         return corr
 
-    def getCloserCell(self, obs_geom, id_layer) :   
+    def getCloserCell(self, obs_geom, id_layer, verbose=False) :   
         """
         Returns the cell closest to the measurement point 
 
@@ -56,12 +58,12 @@ class Observation() :
             id_mesh : mesh id
             id_layer : layer id
         """   
-        """ print(self.id_compartment, id_layer)
-        print(self.config.resolutionNames[self.id_compartment][0][id_layer]) """
+        """ if verbose: print(self.id_compartment, id_layer)
+        if verbose: print(self.config.resolutionNames[self.id_compartment][0][id_layer]) """
         gis_layer   = QgsProject.instance().mapLayersByName(\
             self.config.resolutionNames[self.id_compartment][id_layer][0])[0]
 
-        # print(f'GIS layer used to get closer cell : {gis_layer}')
+        # if verbose: print(f'GIS layer used to get closer cell : {gis_layer}')
     
         spatial_idx = QgsSpatialIndex(gis_layer.getFeatures())
         spatial_idx_nearestCell = spatial_idx.nearestNeighbor(obs_geom, 1)[0]
@@ -100,11 +102,11 @@ class Observation() :
             
             obs_points.append(self.ObsPoint(id_point, geometry_point, name_point, id_layer, id_cell, self.id_mesh))
 
-        # print(len(obs_points))
+        # if verbose: print(len(obs_points))
         return obs_points
 
     class ObsPoint() : 
-        def __init__(self, id_point, geometry_point, name, id_layer, id_cell, id_mesh) : 
+        def __init__(self, id_point, geometry_point, name, id_layer, id_cell, id_mesh, verbose=False) : 
             self.id_gis = id_point
             self.geometry = geometry_point
             self.name = name
@@ -113,16 +115,8 @@ class Observation() :
             self.id_cell = id_cell
             self.obstimeserie = None
             self.simtimeserie = None
-            print(self.__repr__())
+            if verbose: print(self.__repr__())
 
         def __repr__(self) : 
             return f'{self.id_gis} : {self.name} (linked to cell {self.id_cell} of layer {self.id_layer} of mesh {self.id_mesh})'
-
-            # print(self.id_gis)
-
-    
-
-        
-
-        
-
+            # if verbose: print(self.id_gis)

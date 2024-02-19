@@ -27,7 +27,7 @@ class StatisticalCriteria:
         self.makeDirectory(self.directoryStatCrit)
 
 
-    def run (self) -> dict:
+    def run (self, verbose=False) -> dict:
 
         # Get obs (resolution &) output type
         id_compartment, outtype, param = self.getSimObsResolutionOutputType()
@@ -37,7 +37,7 @@ class StatisticalCriteria:
         pbiases_dict = dict()
         for obs_point in compartment.obs.obs_points:
             
-            print(f'\nObservation name point {obs_point.name}')
+            if verbose: print(f'\nObservation name point {obs_point.name}')
             simobsdf = self.exd.manage.Temporal().readSimObs(
                 compartment = compartment,
                 outtype     = outtype,  # 'Q' (discharge)

@@ -26,9 +26,9 @@ class ExploreData() :
         return f"EXPLORE DATA : \nSTART SIM : {self.startsim}\n END SIM : {self.endsim}\n ID Compartment : {self.ids_compartments}, \n CONFIG : {self.config}, \n"
 
     @classmethod
-    def set_instance(cls, explore_data_instance):
+    def set_instance(cls, explore_data_instance, verbose=False):
         cls._explore_data_instance = explore_data_instance
-        print(explore_data_instance)
+        if verbose: print(explore_data_instance)
 
     @classmethod
     def get_instance(cls):

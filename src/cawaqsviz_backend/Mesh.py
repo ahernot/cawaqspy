@@ -16,11 +16,11 @@ QGS_PROJECT.read('/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/Projet_SIG/Modele
 
 
 class Mesh() :
-    def __init__(self, id_compartment, layers_gis_name : list, config, out_caw_directory):
+    def __init__(self, id_compartment, layers_gis_name : list, config, out_caw_directory, verbose=False):
         super().__init__()
 
         # self.ncells = None
-        print(f'Building mesh')
+        if verbose: print(f'Building mesh')
         self.id_compartment = id_compartment
         self.layers_gis_name = layers_gis_name
         self.config = config
@@ -51,12 +51,12 @@ class Mesh() :
             def __repr__(self) : 
                 return f'id : {self.id} ({round(self.area, 1) * 1e-4} ha)'
         
-        def buildLayer(self, layer_gis_name, config):
+        def buildLayer(self, layer_gis_name, config, verbose=False):
             gis_layer = QGS_PROJECT.mapLayersByName(layer_gis_name)[0]
             n_col = int(config.idColCells[self.id_compartment])
 
             layer = []
-            print('Bulding layer ...', flush=True)
+            if verbose: print('Bulding layer ...', flush=True)
 
             if self.id_compartment != reversed_module_caw['HYD']:
 
@@ -83,8 +83,8 @@ class Mesh() :
 
             return layer
 
-        def readHydCorrespfile(self, out_caw_directory) :
-            print(f'reading hyd corresp file : {out_caw_directory}') 
+        def readHydCorrespfile(self, out_caw_directory, verbose=False) :
+            if verbose: print(f'reading hyd corresp file : {out_caw_directory}') 
             corresp_file_path = out_caw_directory + sep + 'HYD_corresp_file.txt'
             
             corr = pd.read_csv(corresp_file_path, index_col = 2, sep = '\s+')
