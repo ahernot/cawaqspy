@@ -1,6 +1,6 @@
 from .Compartment import Compartment
 from .Manage import Manage
-from PyQt5.QtCore import QObject, pyqtSignal
+# from PyQt5.QtCore import QObject, pyqtSignal
 
 from os import sep
 
