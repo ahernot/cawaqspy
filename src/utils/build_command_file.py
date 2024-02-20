@@ -1,21 +1,23 @@
-DIRPATH_DATA = '/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE'
-DIRPATH_OUTPUT = '/home/anatole/Documents/DATA_CAWAQS_OUT/TestProj'
-N_THREADS = 8
+# Default variables
+PARAMS_DICT = {
+    'dirpath_data': '/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE',
+    'dirpath_output': '/home/anatole/Documents/DATA_CAWAQS_OUT/TestProj',
+    'n_threads': 8,
+    'donsur': 'donsur_BU28.txt',
+    'lien_bu_mto': 'LIEN_BU28_MTO.txt'
+}
 
-DONSUR = 'DONSUR_BU28.txt'
-LIEN_BU_MTO = 'LIEN_BU28_MTO.txt'
-LIEN_ELE_BU_CPROD = 'LIEN_ELE_BU_CPROD.txt'
 
+# Command file template (contains some hard-coded values)
+COMMFILE = """\
+Input_folders   = {dirpath_data}/Cmd_files
+                = {dirpath_data}/DATA_HYD
+                = {dirpath_data}/DATA_SURF
+                = {dirpath_data}/DATA_NSAT
+                = {dirpath_data}/DATA_MESH
+                = {dirpath_data}/DATA_AQ
 
-COMMFILE = f"""\
-Input_folders   = {DIRPATH_DATA}/Cmd_files
-                = {DIRPATH_DATA}/DATA_HYD
-                = {DIRPATH_DATA}/DATA_SURF
-                = {DIRPATH_DATA}/DATA_NSAT
-                = {DIRPATH_DATA}/DATA_MESH
-                = {DIRPATH_DATA}/DATA_AQ
-
-Output_folder   = {DIRPATH_OUTPUT}
+Output_folder   = {dirpath_output}
 
 simulation = {{ 
 
@@ -52,7 +54,7 @@ HYDRO = {{
 #            print_lithos = NO                       # Map des lithos affleurantes (si en mode UNCONFINED)
 #        }} 
 
-#        OMP = {{ NO nthreads = {N_THREADS} }}
+#        OMP = {{ NO nthreads = {n_threads} }}
 
 #        GW_MESH = {{
 #            layer = {{ tertiaire   include grid_TERT.txt }}     
@@ -107,7 +109,7 @@ HYDRO = {{
     SURFACE = {{
 
         MTO = {{
-            mto_path     = {DIRPATH_DATA}/METEO      # --> Updated to 31/07/2022
+            mto_path     = {dirpath_data}/METEO      # --> Updated to 31/07/2022
             rain_prefix  = precip
             etp_prefix   = etp
             format       = UNFORMATTED
@@ -118,9 +120,9 @@ HYDRO = {{
 
             OMP = 	{{ YES NTHREADS = 8 }}
 
-            param        = {{ include {DONSUR} }}
-            BU           = {{ include {LIEN_BU_MTO} }}
-            Cprod        = {{ include {LIEN_ELE_BU_CPROD} }}
+            param        = {{ include {donsur} }}
+            BU           = {{ include {lien_bu_mto} }}
+            Cprod        = {{ include LIEN_ELE_BU_CPROD.txt }}
 
             catchments   = {{ 
                 {{   1 Seine
@@ -214,6 +216,18 @@ OUTPUTS = {{
 
 
 
-def build (path: str):
+def build_command_file (path: str, **kwargs):
+
+    # Generate command file from template
+    params_dict = PARAMS_DICT.copy()
+    params_dict.update(kwargs)
+    commfile = COMMFILE.format(**params_dict)
+    
+    # Write to file
     with open(path, 'w', encoding='utf-8') as file:
-        file.write(COMMFILE)
+        file.write(commfile)
+
+    # Print success message
+    verbose = kwargs.get(verbose, False)
+    if verbose:
+        print(f'Built command file in path "{path}"')
