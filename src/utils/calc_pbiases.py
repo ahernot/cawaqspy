@@ -55,7 +55,8 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases i
     command = f'{PATH_CAWAQS} {path_command_file} {path_log}'
     if verbose: print(command)
     # os.system(command)  # TODO: --quiet
-    subprocess.run(command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    stdout = subprocess.PIPE if verbose else subprocess.DEVNULL
+    subprocess.run(command, shell=True, stdout=stdout, stderr=subprocess.PIPE)  # TODO: catch errors
 
 
 
