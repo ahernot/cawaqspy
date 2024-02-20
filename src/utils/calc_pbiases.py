@@ -77,13 +77,14 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases i
     # config_geometry = ConfigGeometry.fromUnformattedDict(config_geometries_dict)
 
     # Build CaWaQSViz project config file
-    build_config_project(
+    config_project_dict, path_config_project = build_config_project(
         dirpath_proj=dirpath_proj,
         path_config_geometries=path_config_geometries,
         year_start=2005,
         year_stop=2023,
         dirpath_obs=DIRPATH_OBS,
         dirpath_proj_postproc=dirpath_proj_postproc,
+        save=True,
         verbose=True
     )
 
