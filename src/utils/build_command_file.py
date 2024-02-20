@@ -3,7 +3,7 @@ PARAMS_DICT = {
     'dirpath_data': '/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE',
     'dirpath_output': '/home/anatole/Documents/DATA_CAWAQS_OUT/TestProj',
     'n_threads': 8,
-    'donsur': 'donsur_BU28.txt',
+    'donsur': 'DONSUR_BU28.txt',
     'lien_bu_mto': 'LIEN_BU28_MTO.txt',
     'year_start': 2005,
     'year_stop': 2023

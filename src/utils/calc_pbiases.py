@@ -1,9 +1,9 @@
 import os
 import subprocess
 
-from src.cawaqsviz_backend.Config import ConfigGeometry
-from src.cawaqsviz_backend.ExploreData import ExploreData
-from src.cawaqsviz_backend.StatisticalCriteria import StatisticalCriteria
+# from src.cawaqsviz_backend.Config import ConfigGeometry
+# from src.cawaqsviz_backend.ExploreData import ExploreData
+# from src.cawaqsviz_backend.StatisticalCriteria import StatisticalCriteria
 
 from src.utils.build_command_file import build_command_file
 from src.utils.build_cawaqsviz_config import build_config_geometries
@@ -45,7 +45,7 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases i
         dirpath_data = DIRPATH_DATA,
         dirpath_output = dirpath_proj,
         n_threads = 8,
-        donsur = 'donsur_BU28.txt',
+        donsur = 'DONSUR_BU28.txt',
         lien_bu_mto = 'LIEN_BU28_MTO.txt',
         verbose = verbose
     )
@@ -67,23 +67,23 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases i
     except FileExistsError:
         pass
 
-    # Build CaWaQSViz geometries config file
-    config_geometries_dict = build_config_geometries()
-    config_geometry = ConfigGeometry.fromUnformattedDict(config_geometries_dict)
+    # # Build CaWaQSViz geometries config file
+    # config_geometries_dict = build_config_geometries()
+    # config_geometry = ConfigGeometry.fromUnformattedDict(config_geometries_dict)
 
-    # Generate CaWaQSViz ExploreData instance    
-    exd = ExploreData(
-        ids_compartments=config_geometry.idCompartments,
-        config=config_geometry,
-        out_caw_directory=os.path.join(dirpath_proj, DIRNAME_PROJ_ITER),
-        obs_directory=DIRPATH_OBS,
-        post_process_directory=dirpath_proj_postproc,
-        s_year=YEAR_START+1,  # TODO: start in 2006 (YEAR_START+1)
-        e_year=YEAR_STOP
-    )
+    # # Generate CaWaQSViz ExploreData instance    
+    # exd = ExploreData(
+    #     ids_compartments=config_geometry.idCompartments,
+    #     config=config_geometry,
+    #     out_caw_directory=os.path.join(dirpath_proj, DIRNAME_PROJ_ITER),
+    #     obs_directory=DIRPATH_OBS,
+    #     post_process_directory=dirpath_proj_postproc,
+    #     s_year=YEAR_START+1,  # TODO: start in YEAR_START+1
+    #     e_year=YEAR_STOP
+    # )
 
-    # Compute pbiases using CaWaQSViz
-    sc = StatisticalCriteria(exd=exd)
-    pbiases_dict = sc.run()
+    # # Compute pbiases using CaWaQSViz
+    # sc = StatisticalCriteria(exd=exd)
+    # pbiases_dict = sc.run()
 
-    return pbiases_dict
+    # return pbiases_dict
