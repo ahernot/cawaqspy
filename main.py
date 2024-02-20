@@ -1,3 +1,6 @@
 from src.utils.calc_pbiases import calc_pbiases
 
-calc_pbiases(verbose=True)
+calc_pbiases (
+    dirname_proj='Project',
+    verbose=True
+)
