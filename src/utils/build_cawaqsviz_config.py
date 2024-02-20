@@ -1,5 +1,6 @@
 import os
 import json
+from typing import Union
 
 from src.config import *
 
@@ -28,7 +29,7 @@ config_geometries_dict = {
 
 
 
-def build_config_geometries (**kwargs) -> dict:  # TODO: option to 
+def build_config_geometries (**kwargs) -> Union[dict, str]:  # TODO: option to 
     """_summary_
 
     Kwargs:
@@ -36,7 +37,7 @@ def build_config_geometries (**kwargs) -> dict:  # TODO: option to
         path (str): Save path
         verbose (bool):
 
-        dirpath_out_proj (str): For saving the file only
+        dirpath_proj (str): For saving the file only
 
     Returns:
         dict: _description_
@@ -47,18 +48,20 @@ def build_config_geometries (**kwargs) -> dict:  # TODO: option to
 
     # Save config to JSON
     if save:
-        dirpath_out_proj = kwargs.get('dirpath_out_proj', DIRPATH_PROJ)
-        dirname_out_proj = os.path.split(DIRPATH_PROJ)[-1]
-        path_config_geometries = kwargs.get('path', os.path.join(dirpath_out_proj, f'config_geometries_{dirname_out_proj.lower()}.json'))
+        dirpath_proj = kwargs.get('dirpath_proj', DIRPATH_PROJ)
+        dirname_proj = os.path.split(DIRPATH_PROJ)[-1]
+        path_config_geometries = kwargs.get('path', os.path.join(dirpath_proj, f'config_geometries_{dirname_proj.lower()}.json'))
         
         with open(path_config_geometries, 'w', encoding='utf-8') as file:
             json.dump(config_geometries_dict, file, indent=4)
         if verbose: print(f'Saved geometries config file in "{path_config_geometries}"')
 
-    return config_geometries_dict
+        return config_geometries_dict, path_config_geometries
+
+    return config_geometries_dict, ''
 
 
-def build_config_project (**kwargs) -> dict:
+def build_config_project (**kwargs) -> Union[dict, str]:
     """_summary_
 
     Kwargs:
@@ -66,25 +69,25 @@ def build_config_project (**kwargs) -> dict:
         path (str): Save path
         verbose (bool)
 
-        dirpath_out_proj (str):
+        dirpath_proj (str):
         path_config_geometries (str):
         year_start (int)
         year_stop (int)
         dirpath_obs (str)
-        dirpath_proj_postproc (str)  # TODO dirpath_post_processing
+        dirpath_proj_postproc (str)
 
     Returns:
-        dict: _description_
+        dict, str: _description_
     """
 
-    dirpath_out_proj = kwargs.get('dirpath_out_proj', DIRPATH_PROJ)
-    dirname_out_proj = os.path.split(DIRPATH_PROJ)[-1]
+    dirpath_proj = kwargs.get('dirpath_proj', DIRPATH_PROJ)
+    dirname_proj = os.path.split(DIRPATH_PROJ)[-1]
     
     # Build config dict
     config_project_dict = {
-        'json_path_geometries': kwargs.get('path_config_geometries', os.path.join(dirpath_out_proj, f'config_geometries_{dirname_out_proj.lower()}.json')),
-        'projectName':          dirname_out_proj,
-        'cawOutDirectory':      os.path.join(dirpath_out_proj, DIRNAME_PROJ_ITER),
+        'json_path_geometries': kwargs.get('path_config_geometries', os.path.join(dirpath_proj, f'config_geometries_{dirname_proj.lower()}.json')),
+        'projectName':          dirname_proj,
+        'cawOutDirectory':      os.path.join(dirpath_proj, DIRNAME_PROJ_ITER),
         'startSim':             kwargs.get('year_start', YEAR_START),
         'endSim':               kwargs.get('year_stop', YEAR_STOP),
         'obsDirectory':         kwargs.get('dirpath_obs', DIRPATH_OBS),
@@ -95,9 +98,10 @@ def build_config_project (**kwargs) -> dict:
     save = kwargs.get('save', False)
     verbose = kwargs.get('verbose', False)
     if save:
-        path_config_project = kwargs.get('path', os.path.join(dirpath_out_proj, f'config_project_{dirname_out_proj}.json'))
+        path_config_project = kwargs.get('path', os.path.join(dirpath_proj, f'config_project_{dirname_proj.lower()}.json'))
         with open(path_config_project, 'w', encoding='utf-8') as file:
             json.dump(config_project_dict, file, indent=4)
         if verbose: print(f'Saved project config file in "{path_config_project}"')
+        return config_project_dict, path_config_project
 
-    return config_project_dict
+    return config_project_dict, ''
