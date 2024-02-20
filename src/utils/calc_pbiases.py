@@ -12,7 +12,7 @@ from src.cawaqsviz_backend.StatisticalCriteria import StatisticalCriteria
 
 
 # Run with a DONSUR path
-def run (**kwargs) -> dict:  # TODO: DONSUR path
+def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path
     """_summary_
 
     Kwargs:
