@@ -60,7 +60,7 @@ class Compartment() :
         """
 
         # Get verbose
-        verbose = kwargs.get(verbose, self.verbose)
+        verbose = kwargs.get('verbose', self.verbose)
     
         path_output_compartment = out_caw_directory + sep + \
             out_caw_folder[id_compartment] + sep
@@ -77,7 +77,7 @@ class Compartment() :
     def defineObsCompartment(self, id_compartment, config, **kwargs):
 
         # Get verbose
-        verbose = kwargs.get(verbose, self.verbose)
+        verbose = kwargs.get('verbose', self.verbose)
         
         if id_compartment in obs_types.keys() : 
             if verbose: print(f'Building observations...')

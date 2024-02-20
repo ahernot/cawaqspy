@@ -78,7 +78,7 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases i
         out_caw_directory=os.path.join(dirpath_proj, DIRNAME_PROJ_ITER),
         obs_directory=DIRPATH_OBS,
         post_process_directory=dirpath_proj_postproc,
-        s_year=YEAR_START,  # TODO: start in 2006 (YEAR_START+1)
+        s_year=YEAR_START+1,  # TODO: start in 2006 (YEAR_START+1)
         e_year=YEAR_STOP
     )
 

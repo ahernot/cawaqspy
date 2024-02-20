@@ -230,6 +230,6 @@ def build_command_file (path: str, **kwargs):
         file.write(commfile)
 
     # Print success message
-    verbose = kwargs.get(verbose, False)
+    verbose = kwargs.get('verbose', False)
     if verbose:
         print(f'Built command file in path "{path}"')
