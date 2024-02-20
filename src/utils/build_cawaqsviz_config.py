@@ -4,11 +4,11 @@ import json
 from src.config import *
 
 
-
-DIRPATH_PROJ = '/home/anatole/Documents/DATA_CAWAQS_OUT/Project'  # TODO: iterate over project_{id}
-DIRPATH_PROJ_POSTPROC = '/home/anatole/Documents/DATA_CAWAQS_OUT/Project/POST_PROCESSING'  # TODO: main PP dir (includes all PP subdirs)
+DIRPATH_PROJ = os.path.join(DIRPATH_OUT, DIRNAME_PROJ)  # TODO: iterate over project_{id}
+DIRPATH_PROJ_POSTPROC = os.path.join(DIRPATH_PROJ, DIRNAME_PROJ_POSTPROC)
 YEAR_START = 2005
 YEAR_STOP = 2023
+
 
 config_geometries_dict = {
     'ids_compartment': [3, 2],
@@ -95,7 +95,7 @@ def build_config_project (**kwargs) -> dict:
     save = kwargs.get('save', False)
     verbose = kwargs.get('verbose', False)
     if save:
-        path_config_project = kwargs.get('path', os.path.join(dirpath_out_proj, f'config_project_{dirname_out_proj}.json'))  # TODO
+        path_config_project = kwargs.get('path', os.path.join(dirpath_out_proj, f'config_project_{dirname_out_proj}.json'))
         with open(path_config_project, 'w', encoding='utf-8') as file:
             json.dump(config_project_dict, file, indent=4)
         if verbose: print(f'Saved project config file in "{path_config_project}"')

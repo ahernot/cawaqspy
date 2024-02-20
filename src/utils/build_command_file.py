@@ -4,7 +4,9 @@ PARAMS_DICT = {
     'dirpath_output': '/home/anatole/Documents/DATA_CAWAQS_OUT/TestProj',
     'n_threads': 8,
     'donsur': 'donsur_BU28.txt',
-    'lien_bu_mto': 'LIEN_BU28_MTO.txt'
+    'lien_bu_mto': 'LIEN_BU28_MTO.txt',
+    'year_start': 2005,
+    'year_stop': 2023
 }
 
 
@@ -24,8 +26,8 @@ simulation = {{
     SEINE_SIMPLE
 
     TIME = {{ 
-        year_init = 2005 #1970
-        year_end  = 2023
+        year_init = {year_start}
+        year_end  = {year_stop}
         dt        = [d] 1.
     }}
 
