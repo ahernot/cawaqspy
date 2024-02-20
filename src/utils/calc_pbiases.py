@@ -1,18 +1,18 @@
 import os
 import subprocess
 
-from src.utils.build_command_file import build_command_file
-from src.utils.build_cawaqsviz_config import build_config_geometries
-from src.config import *
-
 from src.cawaqsviz_backend.Config import ConfigGeometry
 from src.cawaqsviz_backend.ExploreData import ExploreData
 from src.cawaqsviz_backend.StatisticalCriteria import StatisticalCriteria
 
+from src.utils.build_command_file import build_command_file
+from src.utils.build_cawaqsviz_config import build_config_geometries
+from src.config import *
+
 
 
 # Run with a DONSUR path
-def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path
+def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases in an iterative scanning function generating dirname_proj and donsur on the fly
     """_summary_
 
     Kwargs:
@@ -29,7 +29,7 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path
 
 
 
-    # Build project directory
+    # Build main project directory
     dirname_proj = kwargs.get('dirname_proj', DIRNAME_PROJ)
     dirpath_proj = os.path.join(DIRPATH_OUT, dirname_proj)
     try:
@@ -37,7 +37,7 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path
     except FileExistsError:
         pass
 
-    # Build command file
+    # Build CaWaQS command file
     DIRPATH_COMM = os.path.join(DIRPATH_DATA, 'Cmd_files')
     path_command_file = os.path.join(DIRPATH_COMM, f'{dirname_proj}.COMM')
     build_command_file(
@@ -59,7 +59,7 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path
 
 
 
-    # Build post-processing directory inside of the project directory
+    # Build CaWaQSViz post-processing directory inside of the project directory
     dirname_proj_postproc = kwargs.get('dirname_proj_postproc', DIRNAME_PROJ_POSTPROC)
     dirpath_proj_postproc = os.path.join(dirpath_proj, dirname_proj_postproc)
     try:
@@ -67,11 +67,11 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path
     except FileExistsError:
         pass
 
-    # Build geometries config file
+    # Build CaWaQSViz geometries config file
     config_geometries_dict = build_config_geometries()
     config_geometry = ConfigGeometry.fromUnformattedDict(config_geometries_dict)
 
-    # Generate ExploreData instance    
+    # Generate CaWaQSViz ExploreData instance    
     exd = ExploreData(
         ids_compartments=config_geometry.idCompartments,
         config=config_geometry,
@@ -82,7 +82,7 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path
         e_year=YEAR_STOP
     )
 
-    # Compute pbiases
+    # Compute pbiases using CaWaQSViz
     sc = StatisticalCriteria(exd=exd)
     pbiases_dict = sc.run()
 
