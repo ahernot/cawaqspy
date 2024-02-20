@@ -4,6 +4,7 @@ from os import sep
 import pandas as pd
 
 from qgis.core import QgsProject, QgsSpatialIndex, QgsPointXY
+from src.utils.qgis_project import QGS_PROJECT
 
 
 
@@ -60,7 +61,7 @@ class Observation() :
         """   
         """ if verbose: print(self.id_compartment, id_layer)
         if verbose: print(self.config.resolutionNames[self.id_compartment][0][id_layer]) """
-        gis_layer   = QgsProject.instance().mapLayersByName(\
+        gis_layer   = QGS_PROJECT.mapLayersByName(\
             self.config.resolutionNames[self.id_compartment][id_layer][0])[0]
 
         # if verbose: print(f'GIS layer used to get closer cell : {gis_layer}')
@@ -88,7 +89,7 @@ class Observation() :
             id_point    = entitie.attributes()[int(config.obsIdsColCells[id_obs])]
             name_point  = entitie.attributes()[int(config.obsIdsColNames[id_obs])]
 
-            if config.obsIdsColLayer[id_obs] != None :
+            if config.obsIdsColLayer[id_obs] is not None :
                 id_layer = entitie.attributes()[int(config.obsIdsColLayer[id_obs])]
             else : 
                 id_layer = 0

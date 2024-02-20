@@ -1,16 +1,18 @@
 # from .Compartment import Compartment
 # from .Cell import Cell
 
-from qgis.core import QgsProject, QgsVectorLayer, QgsGeometry
+# from qgis.core import QgsProject, QgsVectorLayer, QgsGeometry
 
 from .parameters import names_mesh, ids_mesh, reversed_module_caw 
 import pandas as pd
 from os import sep
 
+from src.utils.qgis_project import QGS_PROJECT
+
 
 # Define QGIS instance from QGS file
-QGS_PROJECT = QgsProject.instance()
-QGS_PROJECT.read('/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/Projet_SIG/Modele_Seine_Simple_DataSelected2024.qgs')
+# QGS_PROJECT = QgsProject.instance()
+# QGS_PROJECT.read('/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/Projet_SIG/Modele_Seine_Simple_DataSelected2024.qgs')
 
 
 
@@ -52,6 +54,7 @@ class Mesh() :
                 return f'id : {self.id} ({round(self.area, 1) * 1e-4} ha)'
         
         def buildLayer(self, layer_gis_name, config, verbose=False):
+            # print(QGS_PROJECT.mapLayers())
             gis_layer = QGS_PROJECT.mapLayersByName(layer_gis_name)[0]
             n_col = int(config.idColCells[self.id_compartment])
 
