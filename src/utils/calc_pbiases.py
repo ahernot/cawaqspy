@@ -6,7 +6,7 @@ import subprocess
 # from src.cawaqsviz_backend.StatisticalCriteria import StatisticalCriteria
 
 from src.utils.build_command_file import build_command_file
-from src.utils.build_cawaqsviz_config import build_config_geometries
+from src.utils.build_cawaqsviz_config import build_config_geometries, build_config_project
 from src.config import *
 
 
@@ -68,9 +68,24 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases i
     except FileExistsError:
         pass
 
-    # # Build CaWaQSViz geometries config file
-    # config_geometries_dict = build_config_geometries()
+    # Build CaWaQSViz geometries config file
+    config_geometries_dict, path_config_geometries = build_config_geometries(
+        save=True,
+        dirpath_proj=dirpath_proj,
+        verbose=True
+    )
     # config_geometry = ConfigGeometry.fromUnformattedDict(config_geometries_dict)
+
+    # Build CaWaQSViz project config file
+    build_config_project(
+        dirpath_proj=dirpath_proj,
+        path_config_geometries=path_config_geometries,
+        year_start=2005,
+        year_stop=2023,
+        dirpath_obs=DIRPATH_OBS,
+        dirpath_proj_postproc=dirpath_proj_postproc,
+        verbose=True
+    )
 
     # # Generate CaWaQSViz ExploreData instance    
     # exd = ExploreData(
