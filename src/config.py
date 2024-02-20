@@ -1,3 +1,4 @@
+PATH_QGIS = '/usr/bin/qgis'
 PATH_CAWAQS = '~/cawaqs'
 
 DIRPATH_DATA = '/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE'
