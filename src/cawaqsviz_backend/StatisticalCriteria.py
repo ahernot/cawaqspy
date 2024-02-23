@@ -9,20 +9,13 @@ from src.cawaqsviz_backend.tools.Criteria import *  # pbias, etc
 
 class StatisticalCriteria: 
 
-    def __init__ (self, exd: ExploreData):
-
+    def __init__ (self, exd: ExploreData, obstype: str, unit: str = 'l/s'):
         # Load global instance of ExploreData
         self.exd = exd
 
-        # Parameters
-        self.obstype = 'Discharge'  # 'Hydraulic Head'
-        self.unit = 'l/s'  # ['l/s', 'm3/s']
-
-
-        #! TODO: needed? or for txt file
-        # check and creat StatCrit repertory if it doesn't exit
-        # self.directoryStatCrit = os.path.join(self.exd.post_process_directory, 'STATS_CRITS')
-        # self.makeDirectory(self.directoryStatCrit)
+        # Save parameters
+        self.obstype = obstype  # ['Discharge', 'Hydraulic Head']
+        self.unit = unit  # ['l/s', 'm3/s']
 
 
     def run (self, verbose=False) -> dict:
