@@ -211,11 +211,17 @@ CawSavingFormat = {
 
 ## OBS CONFIG 
 # id_compartment : {"id_col" : id_col}
+## A VIRER !!! 
 obs_config = {
     2 : {
         "id_col_time" : 1, 
         "id_col_data" : 3
-        }
+        }, 
+    1 : {
+       "id_col_time" : 2, 
+       "id_col_data" : 4 
+    }
+
     }
 
 ## PARAMETRIZATION FILE 
