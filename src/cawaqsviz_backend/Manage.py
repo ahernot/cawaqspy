@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 from .parameters import nbRecs, obs_config, paramRecs
-# from .tools.Convert import *  # TODO: convertDischarge
+from .tools.Convert import convertDischarge  # TODO: convertDischarge
 from .tools.Criteria import calcCritClassics
 
 

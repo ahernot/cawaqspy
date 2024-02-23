@@ -23,8 +23,8 @@ class StatisticalCriteria:
 
         #! TODO: needed? or for txt file
         # check and creat StatCrit repertory if it doesn't exit
-        self.directoryStatCrit = os.path.join(self.exd.post_process_directory, 'STATS_CRITS')
-        self.makeDirectory(self.directoryStatCrit)
+        # self.directoryStatCrit = os.path.join(self.exd.post_process_directory, 'STATS_CRITS')
+        # self.makeDirectory(self.directoryStatCrit)
 
 
     def run (self, verbose=False) -> dict:
@@ -50,7 +50,7 @@ class StatisticalCriteria:
                 id_col_data = obs_config[id_compartment]['id_col_data'],  # From parameters.py
                 id_col_time = obs_config[id_compartment]['id_col_time'],  # From parameters.py
                 id_parameter = paramRecs[compartment.compartment + '_' + outtype].index(param),  # From parameters.py
-                tempDirectory = self.exd.temp_directory,  # TODO: create temp dir
+                tempDirectory = self.exd.temp_directory,
                 obs_unit    = self.unit
             )
 

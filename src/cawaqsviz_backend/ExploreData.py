@@ -10,13 +10,13 @@ class ExploreData() :
 
     _explore_data_instance = None
 
-    def __init__(self, ids_compartments, config, out_caw_directory, obs_directory, post_process_directory, s_year, e_year):
+    def __init__(self, ids_compartments, config, out_caw_directory, obs_directory, post_process_directory, s_year, e_year, dirpath_temp: str):
         self.manage = Manage()
         self.ids_compartments = ids_compartments
         self.config = config
         self.compartments = self.definiCompartments(ids_compartments, config, out_caw_directory, obs_directory)
         self.post_process_directory = post_process_directory
-        self.temp_directory = post_process_directory + sep + 'TEMP'
+        self.temp_directory = dirpath_temp  # post_process_directory + sep + 'TEMP'
         # self.temporyfilemanager = TemporyFileManager()
         self.startsim = s_year
         self.endsim = e_year
