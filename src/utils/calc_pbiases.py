@@ -14,7 +14,7 @@ from src.config import *
 
 
 # Run with a DONSUR path
-def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases in an iterative scanning function generating dirname_proj and donsur on the fly
+def calc_stats (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases in an iterative scanning function generating dirname_proj and donsur on the fly
     """_summary_
 
     Kwargs:
@@ -120,20 +120,20 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases i
 
         # Compute pbiases using CaWaQSViz
         sc = StatisticalCriteria(exd=exd)
-        pbiases_dict = sc.run()
+        stats_dict = sc.run()
 
         # Save pbiases
         save = kwargs.get('save', True)
         if save:
             # Save pbiases as json
-            path_out_json = os.path.join(dirpath_proj_postproc, 'pbiases.json')
+            path_out_json = os.path.join(dirpath_proj_postproc, 'stats.json')
             with open(path_out_json, 'w', encoding='utf-8') as f:
-                json.dump(pbiases_dict, f, ensure_ascii=False, indent=4)
+                json.dump(stats_dict, f, ensure_ascii=False, indent=4)
 
             # Save pbiases as csv
-            path_out_csv = os.path.join(dirpath_proj_postproc, 'pbiases.csv')
-            df = pd.DataFrame(pbiases_dict)
+            path_out_csv = os.path.join(dirpath_proj_postproc, 'stats.csv')
+            df = pd.DataFrame(stats_dict)
             df.to_csv(path_out_csv, index=True, index_label='metric', header=True, sep=',')
 
-        return pbiases_dict
+        return stats_dict
     return None
