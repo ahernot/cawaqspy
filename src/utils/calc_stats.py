@@ -19,13 +19,12 @@ def calc_stats (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases in 
     """_summary_
 
     Kwargs:
-        dirname_proj (str):
-        dirname_proj_postproc (str):
-        verbose (bool): Print debug information (default: False)
+        proj_name (str):
+        save (bool): Save pbiases as json and csv (default: True)
 
+        verbose (bool): Print debug information (default: False)
         run_cawaqs (bool): Run CaWaQS (default: True)
         run_cawaqsviz (bool): Run CaWaQSViz post-processing (default: True)
-        save (bool): Save pbiases as json and csv (default: True)
 
     Returns:
         dict: _description_
@@ -75,8 +74,7 @@ def calc_stats (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases in 
     run_cawaqsviz = kwargs.get('run_cawaqsviz', True)
     if run_cawaqsviz:
         # Build CaWaQSViz post-processing directory inside of the project directory
-        dirname_proj_postproc = kwargs.get('dirname_proj_postproc', DIRNAME_PROJ_POSTPROC)
-        dirpath_proj_postproc = os.path.join(dirpath_proj, dirname_proj_postproc)
+        dirpath_proj_postproc = os.path.join(dirpath_proj, DIRNAME_PROJ_POSTPROC)
         try:
             os.makedirs(dirpath_proj_postproc)
         except FileExistsError:
@@ -135,6 +133,9 @@ def calc_stats (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases in 
             path_out_csv = os.path.join(dirpath_proj_postproc, 'stats.csv')
             df = pd.DataFrame(stats_dict)
             df.to_csv(path_out_csv, index=True, index_label='metric', header=True, sep=',')
+
+            if verbose:
+                print(f'Saved outputs in {dirpath_proj_postproc}')
 
         return stats_dict
     return None
