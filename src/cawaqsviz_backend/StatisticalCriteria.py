@@ -88,7 +88,7 @@ class StatisticalCriteria:
         crits['n_obs'] = countNObservation(obs_data)
 
         # Compute statistical criteria for data
-        crits['stack_couples'] = float(stackCouples(sim_data, obs_data))
+        # crits['stack_couples'] = float(stackCouples(sim_data, obs_data))  # TODO: returns tuple
         crits['sim_obs_ratio_avg'] = float(averageSimObsRatio(sim_data, obs_data))
         crits['bias'] = float(bias(sim_data, obs_data))
         crits['pbias'] = float(pbias(sim_data, obs_data))
