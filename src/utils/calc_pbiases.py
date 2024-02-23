@@ -1,5 +1,6 @@
 import os
 import subprocess
+import pandas as pd
 
 from src.cawaqsviz_backend.Config import ConfigGeometry
 from src.cawaqsviz_backend.ExploreData import ExploreData
@@ -18,10 +19,11 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases i
     Kwargs:
         dirname_proj (str):
         dirname_proj_postproc (str):
-        verbose (bool): 
+        verbose (bool): Print debug information (default: False)
 
-        run_cawaqs (bool)
-        run_cawaqsviz (bool)
+        run_cawaqs (bool): Run CaWaQS (default: True)
+        run_cawaqsviz (bool): Run CaWaQSViz post-processing (default: True)
+        save (bool): Save pbiases as json and csv (default: True)
 
     Returns:
         dict: _description_
@@ -118,6 +120,19 @@ def calc_pbiases (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases i
         # Compute pbiases using CaWaQSViz
         sc = StatisticalCriteria(exd=exd)
         pbiases_dict = sc.run()
+
+        # Save pbiases
+        save = kwargs.get('save', True)
+        if save:
+            # Save pbiases as json
+            path_out_json = os.path.join(dirpath_proj_postproc, 'pbiases.json')
+            with open(path_out_json, 'w', encoding='utf-8') as f:
+                json.dump(pbiases_dict, f, ensure_ascii=False, indent=4)
+
+            # Save pbiases as csv
+            path_out_csv = os.path.join(dirpath_proj_postproc, 'pbiases.csv')
+            df = pd.DataFrame(pbiases_dict)
+            df.to_csv(path_out_csv, index=True, index_label='metric', header=True, sep=',')
 
         return pbiases_dict
     return None
