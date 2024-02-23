@@ -7,6 +7,7 @@ from src.cawaqsviz_backend.Config import ConfigGeometry
 from src.cawaqsviz_backend.ExploreData import ExploreData
 from src.cawaqsviz_backend.StatisticalCriteria import StatisticalCriteria
 
+from src.resources.json_encoders import NumpyEncoder
 from src.utils.build_command_file import build_command_file
 from src.utils.build_cawaqsviz_config import build_config_geometries, build_config_project
 from src.config import *
@@ -128,7 +129,7 @@ def calc_stats (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases in 
             # Save pbiases as json
             path_out_json = os.path.join(dirpath_proj_postproc, 'stats.json')
             with open(path_out_json, 'w', encoding='utf-8') as f:
-                json.dump(stats_dict, f, ensure_ascii=False, indent=4)
+                json.dump(stats_dict, f, ensure_ascii=False, indent=4, cls=NumpyEncoder)
 
             # Save pbiases as csv
             path_out_csv = os.path.join(dirpath_proj_postproc, 'stats.csv')
