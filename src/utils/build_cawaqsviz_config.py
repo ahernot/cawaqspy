@@ -28,55 +28,23 @@ config_geometries_dict = {
 }
 
 config_geometries_dict = {
-    "ids_compartment": [1, 2, 3, 4],
-    "resolutionNames": {
-        "1": [
-            ["AQ_GRID_TERT"],
-            [
-                "AQ_GRID_CRAI"
-            ],
-            [
-                "AQ_GRID_JURA"
-            ]
-        ],
-        "2": [
-            [
-                "ELEMENTS_MUSKINGUM"
-            ]
-        ],
-        "3": [
-            [
-                "ELEMENTS_BU"
-            ]
-        ],
-        "4": [
-            [
-                "PARAM_NSAT"
-            ]
-        ]
+    'ids_compartment': [1, 2, 3, 4],
+    'resolutionNames': {
+        '1': [['AQ_GRID_TERT'], ['AQ_GRID_CRAI'], ['AQ_GRID_JURA']],
+        '2': [['ELEMENTS_MUSKINGUM']],
+        '3': [['ELEMENTS_BU']],
+        '4': [['PARAM_NSAT']]
     },
-    "ids_col_cell": {
-        "1": 5,
-        "3": 2,
-        "2": 13,
-        "4": 0
+    'ids_col_cell': {
+        '1': 5,
+        '2': 13,
+        '3': 2,
+        '4': 0
     },
-    "obsNames": {
-        "2": "STATIONS_select",
-        "1": "Piezo_select"
-    },
-    "obsIdsColCells": {
-        "2": 5,
-        "1": 0
-    },
-    "obsIdsColNames": {
-        "2": 0,
-        "1": 4
-    },
-    "obsIdsColLayers": {
-        "2": None,
-        "1": 15
-    }
+    'obsNames': {'2': 'STATIONS_select','1': 'Piezo_select'},
+    'obsIdsColCells': {'2': 5, '1': 0},
+    'obsIdsColNames': {'2': 0, '1': 4},
+    'obsIdsColLayers': {'2': None, '1': 15}
 }
 
 
