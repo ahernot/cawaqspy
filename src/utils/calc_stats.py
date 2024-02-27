@@ -15,19 +15,22 @@ from src.config import *
 
 
 # Run with a DONSUR path
-def calc_stats (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases in an iterative scanning function generating dirname_proj and donsur on the fly
-    """_summary_
+def calc_stats (proj_name: str, obstype: str, **kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases in an iterative scanning function generating dirname_proj and donsur on the fly
+    """
+    Simulate and calculate stats for a given project and observation type using CaWaQS + CaWaQSViz.
+
+    Args:
+        proj_name (str): Name of the project
+        obstype (str): Observation type ('Discharge', 'Hydraulic Head')
 
     Kwargs:
-        proj_name (str):
         save (bool): Save pbiases as json and csv (default: True)
-
         verbose (bool): Print debug information (default: False)
         run_cawaqs (bool): Run CaWaQS (default: True)
         run_cawaqsviz (bool): Run CaWaQSViz post-processing (default: True)
 
     Returns:
-        dict: _description_
+        dict: Dictionary of statistical criteria
     """
 
     # Read kwargs
@@ -35,7 +38,7 @@ def calc_stats (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases in 
 
 
     # Build main project directory
-    dirname_proj = kwargs.get('dirname_proj', DIRNAME_PROJ)
+    dirname_proj = proj_name
     dirpath_proj = os.path.join(DIRPATH_OUT, dirname_proj)
     try:
         os.makedirs(dirpath_proj)
@@ -67,6 +70,8 @@ def calc_stats (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases in 
         # Run command
         if verbose: os.system(command)
         else: subprocess.run(command, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)  # TODO: catch errors
+
+        # TODO: Remove mac5_2_0_* file
 
 
 
@@ -118,7 +123,7 @@ def calc_stats (**kwargs) -> dict:  # TODO: DONSUR path <= wrap calc_pbiases in 
         )
 
         # Compute pbiases using CaWaQSViz
-        sc = StatisticalCriteria(exd=exd)
+        sc = StatisticalCriteria(exd=exd, obstype=obstype, unit='l/s')
         stats_dict = sc.run()
 
         # Save pbiases
