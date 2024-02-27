@@ -1,5 +1,6 @@
 PATH_QGIS = '/usr/bin/qgis'
 PATH_CAWAQS = '~/cawaqs'
+N_THREADS = 8
 
 DIRPATH_DATA = '/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE'
 DIRPATH_OBS  = '/home/anatole/Documents/DATA_CAWAQS/SEINE_3C/DATA_OBS/TS_OBS_DISCHARGE'
