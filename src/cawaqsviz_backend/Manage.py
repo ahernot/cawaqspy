@@ -264,9 +264,13 @@ class Manage():
                 simobsdata = np.load(temp_file_path)
 
             else :
+                print()
+                print(obs_point, obs_point.id_layer, obs_point.id_cell)
+                print(compartment)
+
                 if verbose: print("SIMOBS CHRONICLE DOESN'T EXISTS IN TEMP DIRECTORY. READ IT FROM SIM OUTPUT AND OBS DATA")
                 simdata = self.readSimData(
-                    compartment= compartment, 
+                    compartment = compartment, 
                     outtype = outtype, 
                     param = param,
                     id_layer = obs_point.id_layer,
@@ -274,6 +278,8 @@ class Manage():
                     eyear = int(endsim), 
                     tempDirectory = tempDirectory
                 )
+
+                print(simdata.shape)  # readSimData reads wrong matrix (mesh from layer 0) despite layer 1 being selected
                 
                 
                 obsdata= self.readObsData(
