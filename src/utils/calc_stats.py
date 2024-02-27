@@ -20,7 +20,7 @@ def calc_stats (proj_name: str, obstype: str, **kwargs) -> dict:  # TODO: DONSUR
     Simulate and calculate stats for a given project and observation type using CaWaQS + CaWaQSViz.
 
     Args:
-        proj_name (str): Name of the project
+        proj_name (str): Name of the project (no spaces, no special characters)
         obstype (str): Observation type ('Discharge', 'Hydraulic Head')
 
     Kwargs:
@@ -55,6 +55,7 @@ def calc_stats (proj_name: str, obstype: str, **kwargs) -> dict:  # TODO: DONSUR
         path_command_file = os.path.join(DIRPATH_COMM, f'{dirname_proj}.COMM')
         build_command_file(
             path_command_file,
+            include_hydro_aquifer = True,
             dirpath_data = DIRPATH_DATA,
             dirpath_output = dirpath_proj,
             n_threads = 8,
@@ -65,7 +66,7 @@ def calc_stats (proj_name: str, obstype: str, **kwargs) -> dict:  # TODO: DONSUR
 
         # Run CaWaQS from command line
         path_log = os.path.join(dirpath_proj, f'{dirname_proj}.log')
-        command = f'{PATH_CAWAQS} {path_command_file} {path_log}'
+        command = f'{PATH_CAWAQS} "{path_command_file}" "{path_log}"'
         if verbose: print(command)
         # Run command
         if verbose: os.system(command)
@@ -77,6 +78,8 @@ def calc_stats (proj_name: str, obstype: str, **kwargs) -> dict:  # TODO: DONSUR
 
     # CaWaQSViz
     run_cawaqsviz = kwargs.get('run_cawaqsviz', True)
+    if run_cawaqsviz:
+        
         # Build CaWaQSViz post-processing directory inside of the project directory
         dirpath_proj_postproc = os.path.join(dirpath_proj, DIRNAME_PROJ_POSTPROC)
         try:
