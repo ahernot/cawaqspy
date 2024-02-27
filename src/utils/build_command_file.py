@@ -421,6 +421,74 @@ OUTPUTS = {{
 }} # Fin du bloc OUTPUTS
 """
 
+class CommfileOutputs:
+
+    ROOT = """\
+    OUTPUTS = {{
+        {outputs}
+    }}\
+    """
+
+    COMMFILE_OUTPUTS_MB_AQ = """\
+        MB_AQ = {{
+        Output_settings = {{ NO
+                            format = UNFORMATTED
+                            print_final_state = YES
+                            time = {{ dt = [d] 1 }}
+                        }}
+        }}\
+    """
+
+    COMMFILE_OUTPUTS_H_AQ = """\
+        H_AQ = {{
+        Output_settings = {{ NO
+                            format = UNFORMATTED
+                            print_final_state = YES
+                            time = {{ dt = [d] 1 }}
+                    }}
+        }}\
+    """
+
+    COMMFILE_OUTPUTS_Q_HYD = """\
+        Q_HYD = {{
+        Output_settings = {{ YES
+                            format = UNFORMATTED
+                            print_final_state = NO
+                            time = {{ dt = [d] 1 }}
+                        }}
+        }}\
+    """
+
+    COMMFILE_OUTPUTS_NSAT = """\
+        NSAT = {{
+        Output_settings = {{ NO
+                            format = UNFORMATTED
+                            time = {{ dt = [d] 1 }}
+                        }}
+        }}\
+    """
+
+    COMMFILE_OUTPUTS_WATBAL = """\
+    WATBAL = {{
+    Output_settings = {{ YES
+                         format = UNFORMATTED
+                         time = {{ dt = [d] 1 }}
+                         spatial_scale = WATBAL_ELEMENT
+                      }}                   
+    }}\
+"""
+
+
+commfile_outputs_dict = {
+    'ROOT':   CommfileOutputs.ROOT,
+    'MB_AQ':  CommfileOutputs.COMMFILE_OUTPUTS_MB_AQ,
+    'H_AQ':   CommfileOutputs.COMMFILE_OUTPUTS_H_AQ,
+    'Q_HYD':  CommfileOutputs.COMMFILE_OUTPUTS_Q_HYD,
+    'NSAT':   CommfileOutputs.COMMFILE_OUTPUTS_NSAT,
+    'WATBAL': CommfileOutputs.COMMFILE_OUTPUTS_WATBAL
+
+}
+
 
 
 def build_command_file (path: str, **kwargs):
