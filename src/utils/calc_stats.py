@@ -77,7 +77,6 @@ def calc_stats (proj_name: str, obstype: str, **kwargs) -> dict:  # TODO: DONSUR
 
     # CaWaQSViz
     run_cawaqsviz = kwargs.get('run_cawaqsviz', True)
-    if run_cawaqsviz:
         # Build CaWaQSViz post-processing directory inside of the project directory
         dirpath_proj_postproc = os.path.join(dirpath_proj, DIRNAME_PROJ_POSTPROC)
         try:
@@ -142,4 +141,4 @@ def calc_stats (proj_name: str, obstype: str, **kwargs) -> dict:  # TODO: DONSUR
                 print(f'Saved outputs in {dirpath_proj_postproc}')
 
         return stats_dict
-    return None
+    return None  # No statistics computed
