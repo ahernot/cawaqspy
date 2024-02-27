@@ -81,7 +81,7 @@ class CommfileHydro:
             setup_layer = {{                   
                 tertiaire
                 param = {{
-                    transm_homo    = {{ uniform 1.12E-2 [m2/s] }}           
+                    transm_homo    = { 100. include Transm_HET_TERT.txt }  # transm_homo    = {{ uniform 1.12E-2 [m2/s] }}           
                     storage 	   = {{ include Emmag_TERT.txt }}           
                     h_ini 		   = {{ include H_ini_TERT.txt }}        
                     thick 		   = {{ include Thickness_TERT.txt }}       
@@ -94,7 +94,7 @@ class CommfileHydro:
             setup_layer = {{
                 craie
                 param = {{
-                    transm_homo    = {{ uniform 3.52E-2 [m2/s] }}            
+                    transm_homo    = { 100. include Transm_HET_CRAI.txt }  # transm_homo    = {{ uniform 3.52E-2 [m2/s] }}            
                     storage 	   = {{ include Emmag_CRAI.txt }}            
                     h_ini 		   = {{ include H_ini_CRAI.txt }}         
                     thick 		   = {{ include Thickness_CRAI.txt }}               
@@ -107,7 +107,7 @@ class CommfileHydro:
             setup_layer = {{
                 jurassique
                 param = {{
-                    transm_homo    = {{ uniform 2.20E-2 [m2/s] }}            
+                    transm_homo    = { 100. include Transm_HET_JURA.txt }  # transm_homo    = {{ uniform 2.20E-2 [m2/s] }}            
                     storage 	   = {{ include Emmag_JURA.txt }}            
                     h_ini 		   = {{ include H_ini_JURA.txt }}         
                     thick 		   = {{ include Thickness_JURA.txt }}        
