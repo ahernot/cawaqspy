@@ -4,28 +4,26 @@ from typing import Union
 
 from src.config import *
 
-
+# Default values
 DIRPATH_PROJ = os.path.join(DIRPATH_OUT, DIRNAME_PROJ)  # TODO: iterate over project_{id}
 DIRPATH_PROJ_POSTPROC = os.path.join(DIRPATH_PROJ, DIRNAME_PROJ_POSTPROC)
-YEAR_START = 2005
-YEAR_STOP = 2023
 
 
-config_geometries_dict = {
-    'ids_compartment': [3, 2],
-    'resolutionNames': {
-        '3': [['ELEMENTS_BU']],
-        '2': [['ELEMENTS_MUSKINGUM']]
-    },
-    'ids_col_cell': {
-        '3': 2,
-        '2': 13
-    },
-    'obsNames':        {'2': 'STATIONS_select'},
-    'obsIdsColCells':  {'2': 5},
-    'obsIdsColNames':  {'2': 0},
-    'obsIdsColLayers': {'2': None}
-}
+# config_geometries_dict = {
+#     'ids_compartment': [3, 2],
+#     'resolutionNames': {
+#         '3': [['ELEMENTS_BU']],
+#         '2': [['ELEMENTS_MUSKINGUM']]
+#     },
+#     'ids_col_cell': {
+#         '3': 2,
+#         '2': 13
+#     },
+#     'obsNames':        {'2': 'STATIONS_select'},
+#     'obsIdsColCells':  {'2': 5},
+#     'obsIdsColNames':  {'2': 0},
+#     'obsIdsColLayers': {'2': None}
+# }
 
 config_geometries_dict = {
     'ids_compartment': [1, 2, 3, 4],
