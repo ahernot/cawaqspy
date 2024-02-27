@@ -45,7 +45,7 @@ class Compartment() :
 
 
     def defineLayerGisName(self, id_compartment, config) : 
-        return config.resolutionNames[id_compartment][0]
+        return [gis_layer for s_l in config.resolutionNames[id_compartment] for gis_layer in s_l]
 
 
     def defineOutCawPath(self, out_caw_directory, id_compartment, **kwargs):
