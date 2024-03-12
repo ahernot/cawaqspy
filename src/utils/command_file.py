@@ -101,7 +101,7 @@ def print_command_dict (command_dict: dict, indent_break_max = 0) -> str:
                     print_prefix = f'{__serialize(key)} '
                     out_list.append (__ichar*indent + print_prefix + f'= {val[0]}')
                     for item in val[1:]:
-                        out_list.append (__ichar*indent + ' '*len(print_prefix) + f'= {val[0]}')
+                        out_list.append (__ichar*indent + ' '*len(print_prefix) + f'= {item}')
 
                 # List contains dictionary elements
                 else:
