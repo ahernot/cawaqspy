@@ -14,7 +14,6 @@
 
 
 
-
 def print_command_dict (command_dict: dict, indent_break_max = 0) -> str:
     """
     Recursively print the command dictionary in a human-readable format.
@@ -61,7 +60,7 @@ def print_command_dict (command_dict: dict, indent_break_max = 0) -> str:
         # Run through subdict's items
         for key, val in subdict.items():
 
-            # Subdicts
+            # Unpack subdicts
             if type(val) == dict:
                 
                 # Only one leaf (non-iterable value): compact writing (curly brackets on the same line)
