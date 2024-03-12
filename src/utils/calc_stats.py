@@ -89,7 +89,7 @@ def calc_stats (proj_name: str, obstype: str, **kwargs) -> dict:  # TODO: DONSUR
 
         # Build CaWaQSViz temp directory
         dirpath_proj_postproc_temp = os.path.join(dirpath_proj_postproc, 'TEMP')
-        os.makedirs(dirpath_proj_postproc_temp, exist_ok=True)  # Overwrite if needed
+        os.makedirs(dirpath_proj_postproc_temp, exist_ok=True)  # Overwrite if needed  
 
         # Build CaWaQSViz geometries config file
         config_geometries_dict, path_config_geometries = build_config_geometries(

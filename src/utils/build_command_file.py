@@ -66,7 +66,7 @@ class CommfileHydro:
             # specific_yield_factor = 0.01           # facteur de conversion S d'UNCONFINED vers CONFINED
             log_fluxes = NO                         # Bilan de flux à l'échelle de la couche
             print_lithos = NO                       # Map des lithos affleurantes (si en mode UNCONFINED)
-        }} 
+        }}
 
         OMP = {{ NO nthreads = {n_threads} }}
 

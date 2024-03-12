@@ -1,3 +1,30 @@
+"""
+#/***************************************************************************
+# CaWaQSViz
+#
+# Description
+#							 -------------------
+#		begin				: 2023
+#		git sha				: $Format:%H$
+#		copyright			: (C) 2023 by Lise-Marie GIROD
+#		email				: lise-marie.girod@minesparis.psl.eu
+# ***************************************************************************/
+#
+#/***************************************************************************
+# *																		    *
+# *   This program is free software; you can redistribute it and/or modify  *
+# *   it under the terms of the GNU General Public License as published by  *
+# *   the Free Software Foundation; either version 2 of the License, or	    *
+# *   any later version.								    				*
+# *																		    *
+# ***************************************************************************/
+#   BREF
+#
+#   Class for managing post-processing
+#
+# ***************************************************************************/
+"""
+
 import os 
 from os import sep
 import time
@@ -27,11 +54,22 @@ class Manage():
         def __init__(self) : 
             pass
 
-        def readSimData(self, compartment, outtype, param, id_layer, syear, eyear, list_surf = [], list_point = None, tempDirectory = None, verbose = False) :
+        def readSimData(
+            self,
+            compartment,
+            outtype,
+            param,
+            id_layer,
+            syear,
+            eyear,
+            list_surf=[],
+            list_point=None,
+            tempDirectory=None,
+        ):
             """
-            Read and convert sim data if file is MB (m3/s) to mm 
+            Read and convert sim data if file is MB (m3/s) to mm
 
-            Parameters : 
+            Parameters :
                 • outfolder_path : caw output repository
                 • outype : output compartment folder (ex : Output_WATBAL)
                 • syear, eyear : begin and end years
@@ -42,96 +80,162 @@ class Manage():
             """
 
             stime = time.time()
-            temp_file_path = tempDirectory + sep + compartment.compartment + '_' + outtype + '_' + str(syear) + str(eyear) + '_' + param +'.npy'
-            if verbose: print(temp_file_path)
+            temp_file_path = (
+                tempDirectory
+                + sep
+                + compartment.compartment
+                + "_"
+                + outtype
+                + "_"
+                + str(syear)
+                + str(eyear)
+                + "_"
+                + param
+                + ".npy"
+            )
+            print(temp_file_path)
+            total_ndays = (
+                datetime.strptime(f"{eyear}-08-01", "%Y-%m-%d")
+                - datetime.strptime(f"{syear}-07-31", "%Y-%m-%d")
+            ).days - 1
+            count_day = 0
+            print(f"Simulated period count {total_ndays} days")
 
-            if os.path.exists(temp_file_path) : 
-                if verbose: print(f'Sim Matrix has already been read. Get it form .npy file : {temp_file_path}')
+            if os.path.exists(temp_file_path):
+                print(
+                    f"Sim Matrix has already been read. Get it form .npy file : {temp_file_path}"
+                )
                 simMatrix = np.load(temp_file_path)
 
                 etime = time.time()
-                if verbose: print(f'READING SIM DATA : {etime - stime} seconds')
+                print(f"READING SIM DATA : {etime - stime} seconds")
 
                 return simMatrix
 
-            else :
-                if verbose: print("Reading Outputs")
+            else:
+                print("Reading Outputs")
                 outfolder_path = compartment.out_caw_path
-                ncells = compartment.mesh.mesh[id_layer].ncells
-                id_compartment = compartment.id_compartment
-                nparams = nbRecs[compartment.compartment + '_' + outtype]
+                ncells = compartment.mesh.ncells
+                nparams = nbRecs[compartment.compartment + "_" + outtype]
 
-                if verbose: print(f'Output Caw directory : {outfolder_path}')
-                if verbose: print(f'Numbers of cells in resolution : {ncells}')
-                if verbose: print(f'Numbers of Recs parameters : {nparams}')
+                print(f"Output Caw directory : {outfolder_path}")
+                print(f"Numbers of cells in resolution : {ncells}")
+                print(f"Numbers of Recs parameters : {nparams}")
 
-                # if list_surf != []: 
+                # if list_surf != []:
                 #    list_surf = np.reshape(list_surf, (ncells, 1, 1))
 
                 # binary encoding
-                dtype = np.dtype([('begin', np.int32), ('values', np.float64, (ncells,)), ('end', np.int32)])
+                dtype = np.dtype(
+                    [
+                        ("begin", np.int32),
+                        ("values", np.float64, (ncells,)),
+                        ("end", np.int32),
+                    ]
+                )
 
-                
                 # read sim data in binary file for every years
-                for y in range(syear, eyear): 
-                    if verbose: print(f"Period reading : {y} - {y+1}")
-                    ## output file path 
-                    outFileName = outfolder_path  + sep + compartment.compartment + "_" + outtype + "." + str(y) + str(y+1) + '.bin'
-                    if verbose: print(outFileName)
+                for y in range(syear, eyear):
+                    print(f"Period reading : {y} - {y+1}")
+                    ## output file path
+                    outFileName = (
+                        outfolder_path
+                        + sep
+                        + compartment.compartment
+                        + "_"
+                        + outtype
+                        + "."
+                        + str(y)
+                        + str(y + 1)
+                        + ".bin"
+                    )
+                    print(outFileName)
                     ## check if the current year is bissextile and return days number
-                    _ , ndays = self.check_bissextile(y+1) 
-                    
-                    
+                    _, ndays = self.check_bissextile(y + 1)
+
                     ## open binary file
-                    with open(outFileName, 'rb') as file : 
+                    with open(outFileName, "rb") as file:
                         ### read from file with numpy and reshape in a vector
-                        readata = np.fromfile(file, dtype = dtype)
+                        readata = np.fromfile(file, dtype=dtype)
                         readOutNCells = readata[0][0]
-                        readarray = readata['values']
+                        readarray = readata["values"]
 
                     if readOutNCells != ncells:
-                        if verbose: print('WARNING : the number of cells read in the configuration is different from the number of cells in the Caw output : \n' +\
-                            f'\tNumber of cells reading from configuration : {ncells}\n' + \
-                                f'\tNumber of cells reading in caw output : {readOutNCells}')
+                        print(
+                            "WARNING : the number of cells read in the configuration is different from the number of cells in the Caw output : \n"
+                            + f"\tNumber of cells reading from configuration : {ncells}\n"
+                            + f"\tNumber of cells reading in caw output : {readOutNCells}"
+                        )
 
-                    else : 
-                        if verbose: print('Year outfile has been read. Recovering data...', flush=True)
+                    else:
+                        print(
+                            "Year outfile has been read. Recovering data...", flush=True
+                        )
 
-                    
-                    c = 0 
+                    # convert read array to array with shape (day, para, cell)
+                    c = 0
                     array = []
                     for day in range(ndays):
-                        array.append(readarray[c:c+nparams])
+                        array.append(readarray[c : c + nparams])
                         c += nparams
 
-                    ## for the first iteration, init simMatrix in 3D (ncells, nparams, ndays)
-                    if y == syear :
-                        simMatrix = []
-                        for para in range(nparams) :
-                            simParam = []
+                    ## for the first iteration, init simMatrix in 3D (nparams, ncells, ndays)
+                    if y == syear:
+                        simMatrix = np.empty(
+                            (nparams, ncells, total_ndays), dtype=np.float64
+                        )
+                        print("")
+                        for para in range(nparams):
                             for cell in range(ncells):
-                                simParam.append([array[day][para][cell] for day in range(ndays)])
-                            simMatrix.append(simParam)
+                                simMatrix[para, cell, count_day : count_day + ndays] = [
+                                    array[day][para][cell] for day in range(ndays)
+                                ]
+                        print(
+                            f"Added values in sim matrix from {count_day} day to {count_day+ndays}"
+                        )
+                    # simMatrix.append(simParam)
 
-                    else : 
-                        for para in range(nparams) :
+                    else:
+                        for para in range(nparams):
                             for cell in range(ncells):
-                                simMatrix[para][cell] += [array[day][para][cell] for day in range(ndays)]
+                                simMatrix[
+                                    para, cell, count_day : count_day + ndays
+                                ] += [array[day][para][cell] for day in range(ndays)]
+                        print(
+                            f"Added values in sim matrix from {count_day} day to {count_day+ndays}"
+                        )
 
-                    if verbose: print('Done', flush=True)
-                    if verbose: print(f'Sim Matrix count {len(simMatrix[0][0])} days')
-            # if verbose: print('Sim Matrix', flush=True)
-            # if verbose: print(simMatrix)
-                if verbose: print('Convert matrix to numpy array')
-                simMatrix = np.array(simMatrix)
-                if verbose: print('Done')
-                for id_p, para in enumerate(paramRecs[compartment.compartment + '_' + outtype]) : 
-                    temp_file_path = tempDirectory + sep + compartment.compartment + '_' + outtype + '_' + str(syear) + str(eyear) + '_' + para + '.npy'
-                    if not os.path.exists(temp_file_path) : 
+                    count_day += ndays
+                    print("Done", flush=True)
+                    print(f"Sim Matrix count {len(simMatrix[0][0])} days")
+                # print('Sim Matrix', flush=True)
+                # print(simMatrix)
+                # print('Convert matrix to numpy array')
+                # simMatrix = np.asarray(simMatrix, dtype = np.float64)
+                # print('Done')
+                for id_p, para in enumerate(
+                    paramRecs[compartment.compartment + "_" + outtype]
+                ):
+                    temp_file_path = (
+                        tempDirectory
+                        + sep
+                        + compartment.compartment
+                        + "_"
+                        + outtype
+                        + "_"
+                        + str(syear)
+                        + str(eyear)
+                        + "_"
+                        + para
+                        + ".npy"
+                    )
+                    if not os.path.exists(temp_file_path):
                         np.save(temp_file_path, simMatrix[id_p])
-                        if verbose: print(f'Saved sim data in : {temp_file_path}')
-                    
-                return simMatrix[paramRecs[compartment.compartment + '_' + outtype].index(param)]           
+                        print(f"Saved sim data in : {temp_file_path}")
+
+                return simMatrix[
+                    paramRecs[compartment.compartment + "_" + outtype].index(param)
+                ]        
 
         def readObsData(self, compartment, id_col_data: int, id_col_time: int, sdate: str, edate: str, verbose = False) : 
             """
@@ -266,7 +370,7 @@ class Manage():
             else :
                 print()
                 print(obs_point, obs_point.id_layer, obs_point.id_cell)
-                print(compartment)
+                print(compartment.__repr__()[1:])
 
                 if verbose: print("SIMOBS CHRONICLE DOESN'T EXISTS IN TEMP DIRECTORY. READ IT FROM SIM OUTPUT AND OBS DATA")
                 simdata = self.readSimData(
@@ -279,7 +383,7 @@ class Manage():
                     tempDirectory = tempDirectory
                 )
 
-                print(simdata.shape)  # readSimData reads wrong matrix (mesh from layer 0) despite layer 1 being selected
+                print(f'Trying to fetch item obs_point.id_cell={obs_point.id_cell} from matrix of shape simdata.shape={simdata.shape} (in layer obs_point.id_layer={obs_point.id_layer})')  # readSimData reads wrong matrix (mesh from layer 0) despite layer 1 being selected
                 
                 
                 obsdata= self.readObsData(
