@@ -15,13 +15,16 @@
 
 
 
-def print_command_dict (command_dict: dict, indent_break_max = 0):
+def print_command_dict (command_dict: dict, indent_break_max = 0) -> str:
     """
     Recursively print the command dictionary in a human-readable format.
 
     Args:
         command_dict (dict): Command dictionary to print.
         indent_break_max (int): Maximum indentation level at which to print line breaks between elements (0 prints no breaks).
+    
+    Returns:
+        str: Command file in string format
     """
 
     def __print_recur (
@@ -35,7 +38,7 @@ def print_command_dict (command_dict: dict, indent_break_max = 0):
         _summary_
 
         Args:
-            subdict (dict): _description_
+            subdict (dict): Current subdict to print.
             out_list (list, optional): Current output list. Defaults to [].
             indent (int, optional): Current indent level. Defaults to 0.
             key_len_max (int, optional): Max key length for current subdict (for text formatting). Defaults to 0.
