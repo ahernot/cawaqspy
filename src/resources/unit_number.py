@@ -1,7 +1,11 @@
-# from typing import Union
-# class Unit:
-#     def __init__ (self, val: Union[int, float], unit: str = None):
-#         self
-#     def __repr__ (self):
-#         return self.val
-# TODO: number with unit
+from typing import Union
+
+
+class UnitNumber:  # TODO: build upon float/int
+
+    def __init__ (self, val: Union[int, float], unit: str = None):
+        self.val = val
+        self.unit = unit
+    
+    def __repr__ (self):
+        return f'[{self.unit}] {self.val}'
