@@ -42,7 +42,7 @@ class CommandFile:
                 'year_end': year_stop,
                 'dt': dt,
             },
-            'SETTINGS': {  # TODO: from kwargs  # TODO: specify required arguments? dict merge?
+            'SETTINGS': {  # TODO: SETTINGS from kwargs  # TODO: specify required arguments? dict merge?
                 'transport': False,
                 'type': 'transient',
                 'eps_Q': '[m3/s] 0.000001',
