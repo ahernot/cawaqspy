@@ -53,7 +53,7 @@ def calc_stats (proj_name: str, obstype: str, **kwargs) -> dict:  # TODO: DONSUR
         # Build CaWaQS command file
         DIRPATH_COMM = os.path.join(DIRPATH_DATA, 'Cmd_files')
         path_command_file = os.path.join(DIRPATH_COMM, f'{dirname_proj}.COMM')
-        build_command_file(
+        build_command_file(  # TODO: deprecate
             path_command_file,
             include_hydro_aquifer = True,
             dirpath_data = DIRPATH_DATA,
