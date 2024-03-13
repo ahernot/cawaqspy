@@ -32,9 +32,9 @@ class CommandFile:
         self.__outputs_dict = dict()
         
     def add_config (self, name: str, year_start, year_stop, dt, **kwargs):
-        self.__name = name
-        self.__year_start = year_start
-        self.__year_stop = year_stop
+        self.name = name
+        self.year_start = year_start
+        self.year_stop = year_stop
 
         self.__simulation_dict = {
             '__inline__': name,
@@ -55,6 +55,9 @@ class CommandFile:
                 'debug': False,
             }
         }
+    
+    def __repr__ (self) -> str:
+        return f'Command file for {self.name} ({self.year_start} – {self.year_stop})'
 
     def add_hydro_layer (self):
         raise NotImplementedError
@@ -107,3 +110,5 @@ class CommandFile:
     @property
     def command_file (self) -> str:
         return format_command_dict (self.command_dict, indent_break_max=0)
+    def build_command_file (self, indent_break_max: int = 0) -> str:
+        return format_command_dict (self.command_dict, indent_break_max=indent_break_max)
