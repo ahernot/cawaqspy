@@ -1,39 +1,3 @@
-# from typing import Union
-# class Unit:
-#     def __init__ (self, val: Union[int, float], unit: str = None):
-#         self
-#     def __repr__ (self):
-#         return self.val
-# TODO: number with unit
-
-# class Hydro:
-#     def __init__ (self, name, **kwargs):
-#         self.__name = name
-
-# class Aquifer (Hydro):
-#     def __init__ (self, name, **kwargs):
-#         super().__init__(name, **kwargs)
-    
-#     def settings (self, **kwargs):
-#         self.__settings = kwargs  # TODO
-
-#     def add_gw_mesh_paths (self, **kwargs):
-#         # tertiaire = "grid_TERT.txt", craie = "grid_CRAI.txt", jurassique = "grid_JURA.txt"
-#         self.__gw_mesh_dict = {'layer': [
-#             {f'{key} include {val}': None} for key, val in kwargs.items()
-#         ]}
-    
-#     def add_setup_layers (self):
-#         pass
-
-# class Simulation:
-#     def __init__ (self, name: str): pass
-#     @classmethod
-#     def from_dict (cls): pass
-#     def to_dict (self): pass
-
-
-
 COMMAND_DICT_SAMPLE = {
 
     'Input_folders': [
