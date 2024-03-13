@@ -4,20 +4,16 @@ from src.utils.format_command_file import format_command_dict
 # class Hydro:
 #     def __init__ (self, name, **kwargs):
 #         self.__name = name
-
 # class Aquifer (Hydro):
 #     def __init__ (self, name, **kwargs):
 #         super().__init__(name, **kwargs)
-    
 #     def settings (self, **kwargs):
 #         self.__settings = kwargs
-
 #     def add_gw_mesh_paths (self, **kwargs):
 #         # tertiaire = "grid_TERT.txt", craie = "grid_CRAI.txt", jurassique = "grid_JURA.txt"
 #         self.__gw_mesh_dict = {'layer': [
 #             {f'{key} include {val}': None} for key, val in kwargs.items()
 #         ]}
-    
 #     def add_setup_layers (self):
 #         pass
 
@@ -25,13 +21,16 @@ from src.utils.format_command_file import format_command_dict
 class CommandFile:
 
     def __init__ (self, input_folders: list, output_folder: str):
+        # Save IO folders
         self.__input_folders = input_folders
         self.__output_folder = output_folder
+
+        # Initialize subdicts
         self.__simulation_dict = dict()
         self.__hydro_dict = dict()
         self.__outputs_dict = dict()
         
-    def add_config (self, name: str, year_start, year_stop, dt, **kwargs):
+    def add_config (self, name: str, year_start, year_stop, dt: str, **kwargs):  # TODO: dt
         self.name = name
         self.year_start = year_start
         self.year_stop = year_stop
