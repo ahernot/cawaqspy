@@ -1,6 +1,27 @@
 from src.utils.format_command_file import format_command_dict
 
 
+# class Hydro:
+#     def __init__ (self, name, **kwargs):
+#         self.__name = name
+
+# class Aquifer (Hydro):
+#     def __init__ (self, name, **kwargs):
+#         super().__init__(name, **kwargs)
+    
+#     def settings (self, **kwargs):
+#         self.__settings = kwargs
+
+#     def add_gw_mesh_paths (self, **kwargs):
+#         # tertiaire = "grid_TERT.txt", craie = "grid_CRAI.txt", jurassique = "grid_JURA.txt"
+#         self.__gw_mesh_dict = {'layer': [
+#             {f'{key} include {val}': None} for key, val in kwargs.items()
+#         ]}
+    
+#     def add_setup_layers (self):
+#         pass
+
+
 class CommandFile:
 
     def __init__ (self, input_folders: list, output_folder: str):
@@ -85,4 +106,4 @@ class CommandFile:
 
     @property
     def command_file (self) -> str:
-        return print_command_dict(self.command_dict, indent_break_max=0)
+        return format_command_dict (self.command_dict, indent_break_max=0)
