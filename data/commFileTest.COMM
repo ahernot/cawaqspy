@@ -1,0 +1,162 @@
+Input_folders = /data/DATA/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE/Cmd_files
+              = /data/DATA/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE/DATA_HYD
+              = /data/DATA/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE/DATA_SURF
+              = /data/DATA/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE/DATA_NSAT
+              = /data/DATA/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE/DATA_MESH
+              = /data/DATA/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE/DATA_AQ
+              = /data/DATA/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE/DATA_AQ/Heterogeneous
+Output_folder = /data/DATA/DATA_CAWAQS_OUT/TestProj
+simulation = {
+	SEINE_SIMPLE
+	TIME = {
+		year_init = 2000
+		year_end  = 2010
+		dt        = [d] 1
+	}
+	SETTINGS = {
+		transport   = NO
+		type        = transient
+		eps_Q       = [m3/s] 0.000001
+		eps_Z       = [m] 0.00001
+		theta       = 1.0
+		nit_pic_max = 1
+		eps_pic     = [cm] 15
+		print_surf  = YES
+		debug       = NO
+	}
+}
+HYDRO = {
+	AQUIFER = {
+		SETTINGS = {
+			anisotropy_factor = 0.1
+			log_fluxes        = NO
+			print_lithos      = NO
+		}
+		OMP = { NO nthreads }
+		GW_MESH = {
+			layer = { tertiaire   include grid_TERT.txt }
+			layer = { craie       include grid_CRAI.txt }
+			layer = { jurassique  include grid_JURA.txt }
+		}
+		SET_UP = {
+			setup_layer = {
+				tertiaire
+				param = {
+					transm_homo = { include Transm_HET_TERT.txt }
+					storage     = { include Emmag_HET_TERT.txt }
+					h_ini       = { include H_ini_HET_TERT.txt }
+					thick       = { include Thickness_HET_TERT.txt }
+					conductance = { include Cond_TOP_noRIV_TERT.txt }
+					Mean        = HARMONIC
+				}
+				boundary = { include Bound_TERT.txt }
+			}
+			setup_layer = {
+				craie
+				param = {
+					transm_homo = { include Transm_HET_CRAI.txt }
+					storage     = { include Emmag_HET_CRAI.txt }
+					h_ini       = { include H_ini_HET_CRAI.txt }
+					thick       = { include Thickness_HET_CRAI.txt }
+					conductance = { include Cond_TOP_noRIV_CRAI.txt }
+					Mean        = HARMONIC
+				}
+				boundary = { include Bound_CRAI.txt }
+			}
+			setup_layer = {
+				jurassique
+				param = {
+					transm_homo = { include Transm_HET_JURA.txt }
+					storage     = { include Emmag_HET_JURA.txt }
+					h_ini       = { include H_ini_HET_JURA.txt }
+					thick       = { include Thickness_HET_JURA.txt }
+					conductance = { include Cond_TOP_noRIV_JURA.txt }
+					Mean        = HARMONIC
+				}
+				boundary = { include Bound_JURA.txt }
+			}
+		}
+	}
+	SURFACE = {
+		MTO = {
+			mto_path    = /home/anatole/Documents/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE/METEO
+			rain_prefix = precip
+			etp_prefix  = etp
+			format      = UNFORMATTED
+			mto_cell    = { include MTO_CELLS.txt }
+		}
+		WATER_BALANCE_UNIT = {
+			OMP         = { YES nthreads }
+			param       = { include DONSUR_BU28.txt }
+			BU          = { include LIEN_BU28_MTO.txt }
+			Cprod       = { include LIEN_ELE_BU_CPROD.txt }
+			catchments  = { { 1 Seine
+Tc = [d] 17
+include LISTE_CPROD_SEINE.txt } }
+			Cprod_no_aq = { include LIEN_CPROD_BU_NO_AQ.txt }
+			Cprod_aq    = { include LIEN_CPROD_AQ.txt }
+		}
+		NETWORK_DESCRIPTION = {
+			settings = {
+				ndim                = 1
+				calculate_curvature = NO
+				dx                  = [m] 0
+				dz                  = [m] 10
+				upstream_Hmin       = [m] 0.
+				downstream_Hmax     = [m] 10.
+				schem_type          = MUSKINGUM
+				K_DEF               = TTRA
+			}
+			OMP           = { NO nthreads }
+			network_musk  = { include NETWORK_MUSK.txt }
+			elements_musk = { include ELEMENTS_MUSK.txt }
+		}
+	}
+	NONSAT = {
+		OMP        = { NO nthreads }
+		param      = { include PARAM_NSAT.txt }
+		nsat_units = { include LIEN_NSAT_PARAM.txt }
+		nsat_prod  = { include LIEN_NSAT_ELE_BU.txt }
+		nsat_aq    = { include LIEN_NSAT_AQF.txt }
+	}
+}
+OUTPUTS = {
+	MB_AQ = {
+		Output_settings = {
+			NO
+			format            = UNFORMATTED
+			time              = { dt = [d] 1 }
+			print_final_state = YES
+		}
+	}
+	H_AQ = {
+		Output_settings = {
+			YES
+			format            = UNFORMATTED
+			time              = { dt = [d] 1 }
+			print_final_state = NO
+		}
+	}
+	Q_HYD = {
+		Output_settings = {
+			YES
+			format            = UNFORMATTED
+			time              = { dt = [d] 1 }
+			print_final_state = NO
+		}
+	}
+	NSAT = {
+		Output_settings = {
+			NO
+			format = UNFORMATTED
+			time   = { dt = [d] 1 }
+		}
+	}
+	WATBAL = {
+		Output_settings = {
+			YES
+			format = UNFORMATTED
+			time   = { dt = [d] 1 }
+		}
+	}
+}
