@@ -5,7 +5,9 @@ Input_folders = /data/DATA/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE/Cmd_files
               = /data/DATA/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE/DATA_MESH
               = /data/DATA/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE/DATA_AQ
               = /data/DATA/DATA_CAWAQS/SEINE_3C/DATA_SEINE_SIMPLE/DATA_AQ/Heterogeneous
+
 Output_folder = /data/DATA/DATA_CAWAQS_OUT/TestProj
+
 simulation = {
 	SEINE_SIMPLE
 	TIME = {
@@ -25,6 +27,7 @@ simulation = {
 		debug       = NO
 	}
 }
+
 HYDRO = {
 	AQUIFER = {
 		SETTINGS = {
@@ -120,6 +123,7 @@ include LISTE_CPROD_SEINE.txt } }
 		nsat_aq    = { include LIEN_NSAT_AQF.txt }
 	}
 }
+
 OUTPUTS = {
 	MB_AQ = {
 		Output_settings = {
