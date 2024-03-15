@@ -61,7 +61,7 @@ class HydroAquifer (CommandFileElement):
         ):
         
         # Add GW_MESH
-        self.__gw_mesh_dict['later'] .append({f'{name} include {path_gw_mesh}': None})
+        self.__gw_mesh_dict['layer'] .append({f'{name} include {path_gw_mesh}': None})
 
         # Add SET_UP
         layer_setup_dict = {
@@ -126,7 +126,7 @@ class HydroSurface (CommandFileElement):
         ):
         omp_val_str = 'YES' if val_omp else 'NO'
         self.__wbu_dict = {
-            'OMP': {f'{omp_val_str} nthreads': n_threads},
+            'OMP': {f'{omp_val_str} nthreads': n_threads},  # TODO: doesn't write the n_threads value!!
             'param': {f'include {path_donsur}': None},
             'BU': {f'include {path_bu_mto}': None},
             'Cprod': {f'include {path_cprod}': None},
@@ -197,7 +197,6 @@ class HydroNonSat (CommandFileElement):
             'nsat_prod': {f'include {path_nsat_prod}': None},
             'nsat_aq': {f'include {path_nsat_aq}': None},     
         }
-
 
 
 class CommandFile:

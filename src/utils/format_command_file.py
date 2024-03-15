@@ -52,7 +52,9 @@ def format_command_dict (command_dict: dict, indent_break_max = 0) -> str:
                 subitems = list(val.values())
                 if len(subitems) == 1 and type(subitems[0]) in __types_single:
                     print_prefix = f'{__serialize(key)} '
-                    print_suffix = f'= {{ {__serialize(list(val.keys())[0])} }}'
+                    subkey, subval = list(val.keys())[0], list(val.values())[0]
+                    if subval is None: print_suffix = f'= {{ {__serialize(subkey)} }}'
+                    else: print_suffix = f'= {{ {__serialize(subkey)} = {__serialize(subval)} }}'
                     if key_len_max > len(print_prefix): print_prefix += ' ' * (key_len_max - len(print_prefix))
                     out_list.append (__ichar*indent + print_prefix + print_suffix)  # Print
                 

@@ -39,7 +39,7 @@ COMMAND_DICT_SAMPLE = {
                 'log_fluxes': False,
                 'print_lithos': False,
             },
-            'OMP': {'NO nthreads': 8},  # TODO
+            'OMP': {'NO nthreads': 8},
             'GW_MESH': {
                 'layer': [
                     {'tertiaire   include grid_TERT.txt': None},
