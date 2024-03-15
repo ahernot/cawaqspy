@@ -12,6 +12,7 @@ class CommandFileElement:
 class Hydro (CommandFileElement):  # TODO: deprecated
     """ Structure for the HYDRO element of the command file """
     def __init__ (self):
+        raise DeprecationWarning
         super().__init__(name='HYDRO')
         self.__elements_dict = dict()
     
@@ -21,6 +22,7 @@ class Hydro (CommandFileElement):  # TODO: deprecated
 
     def add_element (self, element: CommandFileElement):  # TODO: specify type as child type
         self.__elements_dict [element.name] = element
+
 
 class HydroAquifer (CommandFileElement):
     """ Aquifer-specific structure for the HYDRO element of the command file. """
