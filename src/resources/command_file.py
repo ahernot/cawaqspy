@@ -1,4 +1,14 @@
 from src.utils.format_command_file import format_command_dict
+from typing import Union
+from src.utils.format import format_quantity
+
+try:
+    from pint import Quantity
+except ImportError:
+    # Define a dummy Quantity class if pint is not installed
+    class Quantity:
+        pass
+
 
 
 class CommandFileElement:
@@ -7,6 +17,7 @@ class CommandFileElement:
     @property
     def dict (self) -> dict:
         raise NotImplementedError
+
 
 
 class Hydro (CommandFileElement):  # TODO: deprecated
@@ -128,7 +139,7 @@ class HydroSurface (CommandFileElement):
         ):
         omp_val_str = 'YES' if val_omp else 'NO'
         self.__wbu_dict = {
-            'OMP': {f'{omp_val_str} nthreads': n_threads},  # TODO: doesn't write the n_threads value!!
+            'OMP': {f'{omp_val_str} nthreads': n_threads},
             'param': {f'include {path_donsur}': None},
             'BU': {f'include {path_bu_mto}': None},
             'Cprod': {f'include {path_cprod}': None},
@@ -144,15 +155,22 @@ class HydroSurface (CommandFileElement):
             path_elements_musk: str,
             ndim: int = 1,
             calculate_curvature: bool = False,
-            dx: str = '[m] 0',
-            dz: str = '[m] 10',
-            upstream_hmin: str = '[m] 0.',
-            downstream_hmax: str = '[m] 10.',
+            dx: Union[str, int, float, Quantity] = '[m] 0',
+            dz: Union[str, int, float, Quantity] = '[m] 10',
+            upstream_hmin: Union[str, int, float, Quantity] = '[m] 0.',
+            downstream_hmax: Union[str, int, float, Quantity] = '[m] 10.',
             schem_type: str = 'MUSKINGUM',
             k_def: str = 'TTRA',
             val_omp: bool = False,
             n_threads: int = 8
         ):
+
+        # Format quantities
+        if isinstance(dx, Quantity): dx = format_quantity(dx, type_=int)  # Formatted as int
+        if isinstance(dz, Quantity): dz = format_quantity(dz, type_=int)  # Formatted as int
+        if isinstance(upstream_hmin, Quantity): upstream_hmin = format_quantity(upstream_hmin, type_=float)  # Formatted as float
+        if isinstance(downstream_hmax, Quantity): downstream_hmax = format_quantity(downstream_hmax, type_=float)  # Formatted as float
+
         omp_val_str = 'YES' if val_omp else 'NO'
         self.__network_description_dict = {
             'settings': {
@@ -213,10 +231,13 @@ class CommandFile:
         self.__hydro_dict = dict()
         self.__outputs_dict = dict()
         
-    def add_config (self, name: str, year_start, year_stop, dt: str, **kwargs):  # TODO: dt
+    def add_config (self, name: str, year_start, year_stop, dt: Union[str, int, float, Quantity], **kwargs):  # TODO: dt
         self.name = name
         self.year_start = year_start
         self.year_stop = year_stop
+
+        if isinstance(dt, Quantity): dt = format_quantity(dt, type_=int)  # Formatted as int
+        elif isinstance(dt, (int, float)): dt = f'[d] {dt}'  # Default unit is days
 
         self.__simulation_dict = {
             '__inline__': name,
@@ -228,11 +249,11 @@ class CommandFile:
             'SETTINGS': {  # TODO: SETTINGS from kwargs  # TODO: specify required arguments? dict merge?
                 'transport': False,
                 'type': 'transient',
-                'eps_Q': '[m3/s] 0.000001',
-                'eps_Z': '[m] 0.00001',
+                'eps_Q': '[m3/s] 0.000001',  # TODO: Quantity
+                'eps_Z': '[m] 0.00001',  # TODO: Quantity
                 'theta': 1.0,
                 'nit_pic_max': 1,
-                'eps_pic': '[cm] 15',
+                'eps_pic': '[cm] 15',  # TODO: Quantity
                 'print_surf': True,
                 'debug': False,
             }
@@ -250,7 +271,7 @@ class CommandFile:
             self,
             name: str,
             format: str = 'UNFORMATTED',
-            dt: str = '[d] 1',  # TODO: int with unit
+            dt: Union[str, int, float, Quantity] = '[d] 1',
             **kwargs
         ):
         """
@@ -258,12 +279,17 @@ class CommandFile:
 
         Args:
             name (str): Name of the output
+            format (str): Format of the output (default: 'UNFORMATTED')
+            dt (Union[str, int, float, Quantity]): Time step, in days (default: '[d] 1')
 
         Kwargs:
             active (bool): Toggle layer activation (default: True)
             print_final_state (bool): Print final state
             spatial_scale (str): Spatial scale (example: 'WATBAL_ELEMENT')
         """
+
+        if isinstance(dt, Quantity): dt = format_quantity(dt, type_=int)  # Formatted as int
+        elif isinstance(dt, (int, float)): dt = f'[d] {dt}'  # Default unit is days
 
         # Initialize output entry
         self.__outputs_dict [name] = {
