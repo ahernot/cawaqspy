@@ -105,8 +105,8 @@ include LISTE_CPROD_SEINE.txt } }
 				calculate_curvature = NO
 				dx                  = [m] 0
 				dz                  = [m] 10
-				upstream_Hmin       = [m] 0.
-				downstream_Hmax     = [m] 10.
+				upstream_Hmin       = [m] 0.0
+				downstream_Hmax     = [m] 10.0
 				schem_type          = MUSKINGUM
 				K_DEF               = TTRA
 			}
