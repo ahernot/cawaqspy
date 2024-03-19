@@ -19,7 +19,6 @@ class CommandFileElement:
         raise NotImplementedError
 
 
-
 class Hydro (CommandFileElement):  # TODO: deprecated
     """ Structure for the HYDRO element of the command file """
     def __init__ (self):
@@ -33,7 +32,6 @@ class Hydro (CommandFileElement):  # TODO: deprecated
 
     def add_element (self, element: CommandFileElement):  # TODO: specify type as child type
         self.__elements_dict [element.name] = element
-
 
 class HydroAquifer (CommandFileElement):
     """ Aquifer-specific structure for the HYDRO element of the command file. """
