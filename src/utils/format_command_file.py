@@ -1,3 +1,11 @@
+from src.utils.format import format_quantity
+
+try:
+    from pint import Quantity
+except ImportError:
+    # Define a dummy Quantity class if pint is not installed
+    class Quantity:
+        pass
 
 def format_command_dict (command_dict: dict, indent_break_max = 0) -> str:
     """
@@ -39,6 +47,8 @@ def format_command_dict (command_dict: dict, indent_break_max = 0) -> str:
         def __serialize (x):
             if type(x) == bool:
                 return 'YES' if x else 'NO'
+            elif type(x) == Quantity:
+                return format_quantity(x)
             return x
 
 
