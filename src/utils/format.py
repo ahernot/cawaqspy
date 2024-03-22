@@ -22,6 +22,9 @@ def replace_all (string, *chars, **chars_):
     return string_new.strip()
 
 def format_quantity (quantity: Quantity, type_: type = float) -> str:
-    value = type_(quantity.magnitude)
-    unit_formatted = replace_all(str(quantity.units), ' ** ', ' ')
-    return f'[{unit_formatted}] {value}'
+    try:
+        value = type_(quantity.magnitude)
+        unit_formatted = replace_all(str(quantity.units), ' ** ', ' ')
+        return f'[{unit_formatted}] {value}'
+    except:
+        return str(quantity)  # Dummy return
