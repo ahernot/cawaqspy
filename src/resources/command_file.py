@@ -229,13 +229,32 @@ class CommandFile:
         self.__hydro_dict = dict()
         self.__outputs_dict = dict()
         
-    def add_config (self, name: str, year_start, year_stop, dt: Union[str, int, float, Quantity], **kwargs):  # TODO: dt
+    def add_config (
+            self,
+            name: str,
+            year_start: int,
+            year_stop: int,
+            dt: Union[str, int, float, Quantity],
+            transport: bool = False,
+            type_: str = 'transient',
+            eps_Q: Union[str, int, float, Quantity] = '[m3/s] 0.000001',  # TODO: Quantity
+            eps_Z: Union[str, int, float, Quantity] = '[m] 0.00001',  # TODO: Quantity
+            eps_pic: Union[str, int, float, Quantity] = '[cm] 15',  # TODO: Quantity
+            theta: Union[int, float] = 1.0,
+            nit_pic_max: int = 1,
+            print_surf: bool = False,
+            debug: bool = False,
+            **kw_settings
+        ):
+
+        # Save main values
         self.name = name
         self.year_start = year_start
         self.year_stop = year_stop
 
+        # Serialize quantities  # TODO: implement for eps_*
         if isinstance(dt, Quantity): dt = format_quantity(dt, type_=int)  # Formatted as int
-        elif isinstance(dt, (int, float)): dt = f'[d] {dt}'  # Default unit is days
+        elif isinstance(dt, (int, float)): dt = f'[d] {dt}'  # Default unit is days  # TODO: specific serialization function for the CommandFile constructors
 
         self.__simulation_dict = {
             '__inline__': name,
@@ -244,18 +263,21 @@ class CommandFile:
                 'year_end': year_stop,
                 'dt': dt,
             },
-            'SETTINGS': {  # TODO: SETTINGS from kwargs  # TODO: specify required arguments? dict merge?
-                'transport': False,
-                'type': 'transient',
-                'eps_Q': '[m3/s] 0.000001',  # TODO: Quantity
-                'eps_Z': '[m] 0.00001',  # TODO: Quantity
-                'theta': 1.0,
-                'nit_pic_max': 1,
-                'eps_pic': '[cm] 15',  # TODO: Quantity
-                'print_surf': True,
-                'debug': False,
+            'SETTINGS': {
+                'transport': transport,
+                'type': type_,
+                'eps_Q': eps_Q,  
+                'eps_Z': eps_Z,
+                'theta': theta,
+                'nit_pic_max': nit_pic_max,
+                'eps_pic': eps_pic,
+                'print_surf': print_surf,
+                'debug': debug,
             }
         }
+        
+        # Apply kwargs (if any) – overwrites SETTINGS values
+        self.__simulation_dict['SETTINGS'] .update(kw_settings)
     
     def __repr__ (self) -> str:
         return f'Command file for {self.name} ({self.year_start} – {self.year_stop})'
