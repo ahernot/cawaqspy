@@ -45,9 +45,9 @@ def format_command_dict (command_dict: dict, indent_break_max = 0) -> str:
         __iincr = 1
 
         def __serialize (x):
-            if type(x) == bool:
+            if isinstance(x, bool):
                 return 'YES' if x else 'NO'
-            elif type(x) == Quantity:
+            elif isinstance(x, Quantity):
                 return format_quantity(x)
             return x
 
